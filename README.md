@@ -1,4 +1,4 @@
-I started building this midi controller for the AX-80, all 45 controls are presented with buttons and LEDs for the switch functions. Encoders for the 0-99 controls.
+A second build of this midi controller for the AX-80, all 45 controls are presented with buttons and LEDs for the switch functions. Encoders for the 0-99 controls. Encoders give a more accurate edit of the current parameter and can be accelerated to transition quickly of slowly across the range.
 
 ![Synth](Photos/synth.jpg)
 
