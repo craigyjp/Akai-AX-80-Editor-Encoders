@@ -3,6 +3,7 @@
 void settingsMIDICh();
 void settingsMIDIOutCh();
 void settingsEncoderDir();
+void settingsEncoderAccelerate();
 void settingsUpdateParams();
 void settingsROMType();
 void settingsSetBank();
@@ -14,6 +15,7 @@ void settingsSaveAll();
 int currentIndexMIDICh();
 int currentIndexMIDIOutCh();
 int currentIndexEncoderDir();
+int currentIndexEncoderAccelerate();
 int currentIndexUpdateParams();
 int currentIndexROMType();
 int currentIndexSetBank();
@@ -47,6 +49,15 @@ void settingsEncoderDir(int index, const char *value) {
     encCW =  false;
   }
   storeEncoderDir(encCW ? 1 : 0);
+}
+
+void settingsEncoderAccelerate(int index, const char *value) {
+  if (strcmp(value, "Yes") == 0) {
+    accelerate = true;
+  } else {
+    accelerate =  false;
+  }
+  storeEncoderAccelerate(accelerate ? 0 : 1);
 }
 
 void settingsUpdateParams(int index, const char *value) {
@@ -124,6 +135,10 @@ int currentIndexEncoderDir() {
   return getEncoderDir() ? 0 : 1;
 }
 
+int currentIndexEncoderAccelerate() {
+  return getEncoderAccelerate() ? 0 : 1;
+}
+
 int currentIndexUpdateParams() {
   return getUpdateParams() ? 1 : 0;
 }
@@ -157,6 +172,7 @@ void setUpSettings() {
   settings::append(settings::SettingsOption{"MIDI Ch.", {"All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "\0"}, settingsMIDICh, currentIndexMIDICh});
   settings::append(settings::SettingsOption{"MIDI Out Ch.", {"Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "\0"}, settingsMIDIOutCh, currentIndexMIDIOutCh});
   settings::append(settings::SettingsOption{"Encoder", {"Type 1", "Type 2", "\0"}, settingsEncoderDir, currentIndexEncoderDir});
+  settings::append(settings::SettingsOption{"Enc Speed", {"No", "Yes", "\0"}, settingsEncoderAccelerate, currentIndexEncoderAccelerate});
   settings::append(settings::SettingsOption{"MIDI Params", {"Off", "Send Params", "\0"}, settingsUpdateParams, currentIndexUpdateParams});
   settings::append(settings::SettingsOption{"Set Bank", {"RAM", "1", "2", "3", "4", "\0"}, settingsSetBank, currentIndexSetBank});
   settings::append(settings::SettingsOption{"Load Factory", {"No", "Yes", "\0"}, settingsLoadFactory, currentIndexLoadFactory});

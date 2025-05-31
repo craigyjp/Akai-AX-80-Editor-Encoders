@@ -108,29 +108,29 @@ void setup() {
   mcp1.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp1.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp2.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
-  mcp2.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp2.pinMode(6, OUTPUT);   // pin 6 = GPA6 of MCP2301X
+  mcp2.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp2.pinMode(13, OUTPUT);  // pin 13 = GPB5 of MCP2301X
   mcp2.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp2.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp3.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp3.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp3.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp4.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
-  mcp4.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp4.pinMode(6, OUTPUT);   // pin 6 = GPA6 of MCP2301X
+  mcp4.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp4.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp4.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp5.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp5.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp5.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp5.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp6.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp6.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp6.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp7.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
-  mcp7.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
+  mcp7.pinMode(6, OUTPUT);   // pin 6 = GPA6 of MCP2301X
+  mcp7.pinMode(7, OUTPUT);   // pin 7 = GPA7 of MCP2301X
   mcp7.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp7.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
@@ -200,6 +200,9 @@ void setup() {
 
   //Read Bank from EEPROM
   bankselect = getSetBank();
+
+  // Read the encoders accelerate
+  accelerate = getEncoderAccelerate();
 
   recallPatch(patchNo);  //Load first patch
   refreshScreen();
@@ -921,7 +924,11 @@ void updateosc2_freq() {
 
 void updateosc2_eg_depth() {
   if (!recallPatchFlag) {
-    showCurrentParameterPage("Osc2 EG Dep", String(osc2_eg_depth));
+    if (osc2_eg_depth == 50) {
+      showCurrentParameterPage("Osc2 EG Dep", "Off");
+    } else {
+      showCurrentParameterPage("Osc2 EG Dep", String(osc2_eg_depth));
+    }
     startParameterDisplay();
   }
   midiCCOut(CCosc2_eg_depth, osc2_eg_depth);
@@ -941,7 +948,11 @@ void updateosc2_level() {
 
 void updateosc2_detune() {
   if (!recallPatchFlag) {
-    showCurrentParameterPage("Osc2 Detune", String(osc2_detune));
+    if (osc2_detune == 50) {
+      showCurrentParameterPage("Osc2 Detune", "Off");
+    } else {
+      showCurrentParameterPage("Osc2 Detune", String(osc2_detune));
+    }
     startParameterDisplay();
   }
   midiCCOut(CCosc2_detune, osc2_detune);
@@ -966,7 +977,11 @@ void updatevcf_res() {
 
 void updatevcf_eg_depth() {
   if (!recallPatchFlag) {
-    showCurrentParameterPage("EG Depth", String(vcf_eg_depth));
+    if (vcf_eg_depth == 50) {
+      showCurrentParameterPage("VCF EG Depth", "Off");
+    } else {
+      showCurrentParameterPage("VCF EG Depth", String(vcf_eg_depth));
+    }
     startParameterDisplay();
   }
   midiCCOut(CCvcf_eg_depth, vcf_eg_depth);
@@ -975,9 +990,9 @@ void updatevcf_eg_depth() {
 void updatevcf_key_follow() {
   if (!recallPatchFlag) {
     if (vcf_key_follow == 0) {
-      showCurrentParameterPage("Key Follow", String("Off"));
+      showCurrentParameterPage("VCF K.Follow", String("Off"));
     } else {
-      showCurrentParameterPage("Key Follow", String(vcf_key_follow));
+      showCurrentParameterPage("VCF K.Follow", String(vcf_key_follow));
     }
     startParameterDisplay();
   }
@@ -987,9 +1002,9 @@ void updatevcf_key_follow() {
 void updatevcf_key_velocity() {
   if (!recallPatchFlag) {
     if (vcf_key_velocity == 0) {
-      showCurrentParameterPage("Key Velocity", String("Off"));
+      showCurrentParameterPage("VCF K.Velocity", String("Off"));
     } else {
-      showCurrentParameterPage("Key Velocity", String(vcf_key_velocity));
+      showCurrentParameterPage("VCF K.Velocity", String(vcf_key_velocity));
     }
     startParameterDisplay();
   }
@@ -998,7 +1013,7 @@ void updatevcf_key_velocity() {
 
 void updatevcf_hpf() {
   if (!recallPatchFlag) {
-    showCurrentParameterPage("High Pass", String(vcf_hpf));
+    showCurrentParameterPage("VCF High Pass", String(vcf_hpf));
     startParameterDisplay();
   }
   midiCCOut(CCvcf_hpf, vcf_hpf);
@@ -1312,9 +1327,9 @@ void updateeg2_key_follow() {
 void updatevca_key_velocity() {
   if (!recallPatchFlag) {
     if (vca_key_velocity == 0) {
-      showCurrentParameterPage("VCA K.Vel", String("Off"));
+      showCurrentParameterPage("VCA K.Velocity", String("Off"));
     } else {
-      showCurrentParameterPage("VCA K.Vel", String(vca_key_velocity));
+      showCurrentParameterPage("VCA K.Velocity", String(vca_key_velocity));
     }
     startParameterDisplay();
   }
@@ -3274,7 +3289,13 @@ void checkLoadRAM() {
 }
 
 void RotaryEncoderChanged(bool clockwise, int id) {
-  int speed = getEncoderSpeed(id);
+  
+  if (!accelerate) {
+    speed = 1;
+  } else {
+    speed = getEncoderSpeed(id);
+  }
+
   if (!clockwise) {
     speed = -speed;
   }
@@ -3503,6 +3524,10 @@ int getEncoderSpeed(int id) {
   } else if (revolutionTime < 250) {
     speed = 2;
   }
+
+  // if (!accelerate) {
+  //   speed = 1;
+  // }
 
   lastTransition[id] = now;
   return speed;

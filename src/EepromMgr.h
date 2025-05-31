@@ -11,6 +11,7 @@
 #define EEPROM_ROM_TYPE 8
 #define EEPROM_LOAD_RAM 9
 #define EEPROM_BANK_SELECT 10
+#define EEPROM_ENCODER_ACCELERATE 11
 
 int getMIDIChannel() {
   byte midiChannel = EEPROM.read(EEPROM_MIDI_CH);
@@ -32,6 +33,17 @@ boolean getEncoderDir() {
 void storeEncoderDir(byte encoderDir)
 {
   EEPROM.update(EEPROM_ENCODER_DIR, encoderDir);
+}
+
+boolean getEncoderAccelerate() {
+  byte ea = EEPROM.read(EEPROM_ENCODER_ACCELERATE); 
+  if (ea < 0 || ea > 1)return true; //If EEPROM has no encoder direction stored
+  return ea == 1 ? true : false;
+}
+
+void storeEncoderAccelerate(byte encoderAccelerate)
+{
+  EEPROM.update(EEPROM_ENCODER_ACCELERATE, encoderAccelerate);
 }
 
 boolean getUpdateParams() {
