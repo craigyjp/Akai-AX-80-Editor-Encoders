@@ -19,6 +19,15 @@
 #define LFO3_WAVE_BUTTON 8
 #define ENV_SEL_BUTTON 9
 #define LFO_SEL_BUTTON 10
+#define OSC1_LEV_SW 11
+#define OSC2_DET_SW 12
+#define OSC2_LEV_SW 13
+#define OSC2_EG_SW 14
+#define VCF_EG_SW 15
+#define VCF_KEYF_SW 16
+#define VCF_VEL_SW 17
+#define VCA_VEL_SW 18
+
 
 // Pins for MCP23017
 #define GPA0 0
@@ -113,13 +122,24 @@ Button lfo3_wave_Button = Button(&mcp4, 12, LFO3_WAVE_BUTTON, &mainButtonChanged
 Button env_sel_Button = Button(&mcp5, 13, ENV_SEL_BUTTON, &mainButtonChanged);
 Button lfo_sel_Button = Button(&mcp5, 12, LFO_SEL_BUTTON, &mainButtonChanged);
 
+Button osc1_lev_Button = Button(&mcp3, 6, OSC1_LEV_SW, &mainButtonChanged);
+Button osc2_det_Button = Button(&mcp3, 14, OSC2_DET_SW, &mainButtonChanged);
+Button osc2_lev_Button = Button(&mcp4, 13, OSC2_LEV_SW, &mainButtonChanged);
+Button osc2_egd_Button = Button(&mcp5, 4, OSC2_EG_SW, &mainButtonChanged);
+Button vcf_eg_Button = Button(&mcp5, 5, VCF_EG_SW, &mainButtonChanged);
+Button vcf_keyf_Button = Button(&mcp5, 6, VCF_KEYF_SW, &mainButtonChanged);
+Button vcf_vel_Button = Button(&mcp6, 6, VCF_VEL_SW, &mainButtonChanged);
+Button vca_vel_Button = Button(&mcp6, 14, VCA_VEL_SW, &mainButtonChanged);
+
 Button *mainButtons[] = {
         &osc1_oct_Button, &osc1_wave_Button, &osc1_sub_Button, &osc2_wave_Button, &osc2_xmod_Button, &osc2_eg_Button, &lfo1_wave_Button, &lfo2_wave_Button, &lfo3_wave_Button, &env_sel_Button, &lfo_sel_Button,
+        &osc1_lev_Button, &osc2_det_Button, &osc2_lev_Button, &osc2_egd_Button, &vcf_eg_Button, &vcf_keyf_Button, &vcf_vel_Button, &vca_vel_Button,
 };
 
 Button *allButtons[] = {
         &osc1_oct_Button, &osc1_wave_Button, &osc1_sub_Button, &osc2_wave_Button, &osc2_xmod_Button, &osc2_eg_Button,
-        &lfo1_wave_Button, &lfo2_wave_Button, &lfo3_wave_Button, &env_sel_Button, &lfo_sel_Button
+        &lfo1_wave_Button, &lfo2_wave_Button, &lfo3_wave_Button, &env_sel_Button, &lfo_sel_Button,
+        &osc1_lev_Button, &osc2_det_Button, &osc2_lev_Button, &osc2_egd_Button, &vcf_eg_Button, &vcf_keyf_Button, &vcf_vel_Button, &vca_vel_Button
 };
 
 // GP1
@@ -258,17 +278,7 @@ Button *allButtons[] = {
 #define ENCODER_PINA 4
 #define ENCODER_PINB 5
 
-#define MUXCHANNELS 16
-#define QUANTISE_FACTOR 31
-
 #define DEBOUNCE 30
-
-static byte muxInput = 0;
-static int mux1ValuesPrev[MUXCHANNELS] = {};
-static int mux2ValuesPrev[MUXCHANNELS] = {};
-static int mux3ValuesPrev[MUXCHANNELS] = {};
-static int mux4ValuesPrev[MUXCHANNELS] = {};
-static int mux5ValuesPrev[MUXCHANNELS] = {};
 
 static long encPrevious = 0;
 

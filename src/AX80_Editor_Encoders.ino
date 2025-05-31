@@ -110,38 +110,27 @@ void setup() {
 
   mcp2.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp2.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
   mcp2.pinMode(13, OUTPUT);  // pin 13 = GPB5 of MCP2301X
   mcp2.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp2.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp3.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp3.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
-  mcp3.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp3.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
   mcp4.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp4.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
   mcp4.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp4.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp5.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp5.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
   mcp5.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp5.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
-  mcp6.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp6.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
-  mcp6.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp6.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
   mcp7.pinMode(6, OUTPUT);  // pin 6 = GPA6 of MCP2301X
   mcp7.pinMode(7, OUTPUT);  // pin 7 = GPA7 of MCP2301X
-
   mcp7.pinMode(14, OUTPUT);  // pin 14 = GPB6 of MCP2301X
   mcp7.pinMode(15, OUTPUT);  // pin 15 = GPB7 of MCP2301X
 
@@ -833,7 +822,7 @@ void updateosc2_freq() {
         break;
       case 6:
         showCurrentParameterPage("Osc2 Freq", String("16 Foot +6"));
-        break; 
+        break;
       case 7:
         showCurrentParameterPage("Osc2 Freq", String("16 Foot +7"));
         break;
@@ -869,7 +858,7 @@ void updateosc2_freq() {
         break;
       case 18:
         showCurrentParameterPage("Osc2 Freq", String("8 Foot +6"));
-        break; 
+        break;
       case 19:
         showCurrentParameterPage("Osc2 Freq", String("8 Foot +7"));
         break;
@@ -905,7 +894,7 @@ void updateosc2_freq() {
         break;
       case 30:
         showCurrentParameterPage("Osc2 Freq", String("4 Foot +6"));
-        break; 
+        break;
       case 31:
         showCurrentParameterPage("Osc2 Freq", String("4 Foot +7"));
         break;
@@ -1741,7 +1730,7 @@ void updateeg_select() {
 }
 
 void startParameterDisplay() {
-  refreshScreen(); 
+  refreshScreen();
 
   lastDisplayTriggerTime = millis();
   waitingToUpdate = true;
@@ -2342,19 +2331,6 @@ void checkSwitches() {
 }
 
 void reinitialiseToPanel() {
-  //This sets the current patch to be the same as the current hardware panel state - all the pots
-  //The four button controls stay the same state
-  //This reinialises the previous hardware values to force a re-read
-  muxInput = 0;
-  for (int i = 0; i < MUXCHANNELS; i++) {
-    mux1ValuesPrev[i] = RE_READ;
-    mux2ValuesPrev[i] = RE_READ;
-    mux3ValuesPrev[i] = RE_READ;
-    mux4ValuesPrev[i] = RE_READ;
-    mux5ValuesPrev[i] = RE_READ;
-  }
-  patchName = INITPATCHNAME;
-  showPatchPage("Initial", "Panel Settings");
 }
 
 void checkEncoder() {
@@ -3305,210 +3281,210 @@ void RotaryEncoderChanged(bool clockwise, int id) {
 
   switch (id) {
     case 1:
-    osc1_pw = (osc1_pw + speed);
-    osc1_pw = constrain(osc1_pw, 0, 99);
-    updateosc1_PW();
-    break;
+      osc1_pw = (osc1_pw + speed);
+      osc1_pw = constrain(osc1_pw, 0, 99);
+      updateosc1_PW();
+      break;
 
     case 2:
-    osc1_pwm = (osc1_pwm + speed);
-    osc1_pwm = constrain(osc1_pwm, 0, 99);
-    updateosc1_PWM();
-    break;
+      osc1_pwm = (osc1_pwm + speed);
+      osc1_pwm = constrain(osc1_pwm, 0, 99);
+      updateosc1_PWM();
+      break;
 
     case 3:
-    osc1_level = (osc1_level + speed);
-    osc1_level = constrain(osc1_level, 0, 99);
-    updateosc1_level();
-    break;
+      osc1_level = (osc1_level + speed);
+      osc1_level = constrain(osc1_level, 0, 99);
+      updateosc1_level();
+      break;
 
     case 4:
-    osc2_detune = (osc2_detune + speed);
-    osc2_detune = constrain(osc2_detune, 0, 99);
-    updateosc2_detune();
-    break;
+      osc2_detune = (osc2_detune + speed);
+      osc2_detune = constrain(osc2_detune, 0, 99);
+      updateosc2_detune();
+      break;
 
     case 5:
-    osc2_freq = (osc2_freq + speed);
-    osc2_freq = constrain(osc2_freq, 0, 36);
-    updateosc2_freq();
-    break;
+      osc2_freq = (osc2_freq + speed);
+      osc2_freq = constrain(osc2_freq, 0, 36);
+      updateosc2_freq();
+      break;
 
     case 6:
-    osc2_eg_depth = (osc2_eg_depth + speed);
-    osc2_eg_depth = constrain(osc2_eg_depth, 0, 99);
-    updateosc2_eg_depth();
-    break;
+      osc2_eg_depth = (osc2_eg_depth + speed);
+      osc2_eg_depth = constrain(osc2_eg_depth, 0, 99);
+      updateosc2_eg_depth();
+      break;
 
     case 7:
-    osc2_level = (osc2_level + speed);
-    osc2_level = constrain(osc2_level, 0, 99);
-    updateosc2_level();
-    break;
+      osc2_level = (osc2_level + speed);
+      osc2_level = constrain(osc2_level, 0, 99);
+      updateosc2_level();
+      break;
 
     case 8:
-    vcf_cutoff = (vcf_cutoff + speed);
-    vcf_cutoff = constrain(vcf_cutoff, 0, 99);
-    updatevcf_cutoff();
-    break;
+      vcf_cutoff = (vcf_cutoff + speed);
+      vcf_cutoff = constrain(vcf_cutoff, 0, 99);
+      updatevcf_cutoff();
+      break;
 
     case 9:
-    vcf_res = (vcf_res + speed);
-    vcf_res = constrain(vcf_res, 0, 99);
-    updatevcf_res();
-    break;
+      vcf_res = (vcf_res + speed);
+      vcf_res = constrain(vcf_res, 0, 99);
+      updatevcf_res();
+      break;
 
     case 10:
-    vcf_eg_depth = (vcf_eg_depth + speed);
-    vcf_eg_depth = constrain(vcf_eg_depth, 0, 99);
-    updatevcf_eg_depth();
-    break;
+      vcf_eg_depth = (vcf_eg_depth + speed);
+      vcf_eg_depth = constrain(vcf_eg_depth, 0, 99);
+      updatevcf_eg_depth();
+      break;
 
     case 11:
-    vcf_key_follow = (vcf_key_follow + speed);
-    vcf_key_follow = constrain(vcf_key_follow, 0, 99);
-    updatevcf_key_follow();
-    break;
+      vcf_key_follow = (vcf_key_follow + speed);
+      vcf_key_follow = constrain(vcf_key_follow, 0, 99);
+      updatevcf_key_follow();
+      break;
 
     case 12:
-    vcf_hpf = (vcf_hpf + speed);
-    vcf_hpf = constrain(vcf_hpf, 0, 99);
-    updatevcf_hpf();
-    break;
+      vcf_hpf = (vcf_hpf + speed);
+      vcf_hpf = constrain(vcf_hpf, 0, 99);
+      updatevcf_hpf();
+      break;
 
     case 13:
-    lfo1_depth = (lfo1_depth + speed);
-    lfo1_depth = constrain(lfo1_depth, 0, 99);
-    updatelfo1_depth();
-    break;
+      lfo1_depth = (lfo1_depth + speed);
+      lfo1_depth = constrain(lfo1_depth, 0, 99);
+      updatelfo1_depth();
+      break;
 
     case 14:
-    lfo2_depth = (lfo2_depth + speed);
-    lfo2_depth = constrain(lfo2_depth, 0, 99);
-    updatelfo2_depth();
-    break;
+      lfo2_depth = (lfo2_depth + speed);
+      lfo2_depth = constrain(lfo2_depth, 0, 99);
+      updatelfo2_depth();
+      break;
 
     case 15:
-    eg1_attack = (eg1_attack + speed);
-    eg1_attack = constrain(eg1_attack, 0, 99);
-    updateeg1_attack();
-    break;
+      eg1_attack = (eg1_attack + speed);
+      eg1_attack = constrain(eg1_attack, 0, 99);
+      updateeg1_attack();
+      break;
 
     case 16:
-    eg1_decay = (eg1_decay + speed);
-    eg1_decay = constrain(eg1_decay, 0, 99);
-    updateeg1_decay();
-    break;
+      eg1_decay = (eg1_decay + speed);
+      eg1_decay = constrain(eg1_decay, 0, 99);
+      updateeg1_decay();
+      break;
 
     case 17:
-    eg2_attack = (eg2_attack + speed);
-    eg2_attack = constrain(eg2_attack, 0, 99);
-    updateeg2_attack();
-    break;
+      eg2_attack = (eg2_attack + speed);
+      eg2_attack = constrain(eg2_attack, 0, 99);
+      updateeg2_attack();
+      break;
 
     case 18:
-    eg2_decay = (eg2_decay + speed);
-    eg2_decay = constrain(eg2_decay, 0, 99);
-    updateeg2_decay();
-    break;
+      eg2_decay = (eg2_decay + speed);
+      eg2_decay = constrain(eg2_decay, 0, 99);
+      updateeg2_decay();
+      break;
 
     case 19:
-    vcf_key_velocity = (vcf_key_velocity + speed);
-    vcf_key_velocity = constrain(vcf_key_velocity, 0, 99);
-    updatevcf_key_velocity();
-    break;
+      vcf_key_velocity = (vcf_key_velocity + speed);
+      vcf_key_velocity = constrain(vcf_key_velocity, 0, 99);
+      updatevcf_key_velocity();
+      break;
 
     case 20:
-    lfo3_depth = (lfo3_depth + speed);
-    lfo3_depth = constrain(lfo3_depth, 0, 99);
-    updatelfo3_depth();
-    break;
+      lfo3_depth = (lfo3_depth + speed);
+      lfo3_depth = constrain(lfo3_depth, 0, 99);
+      updatelfo3_depth();
+      break;
 
     case 21:
-    eg1_key_follow = (eg1_key_follow + speed);
-    eg1_key_follow = constrain(eg1_key_follow, 0, 99);
-    updateeg1_key_follow();
-    break;
+      eg1_key_follow = (eg1_key_follow + speed);
+      eg1_key_follow = constrain(eg1_key_follow, 0, 99);
+      updateeg1_key_follow();
+      break;
 
     case 22:
-    eg2_key_follow = (eg2_key_follow + speed);
-    eg2_key_follow = constrain(eg2_key_follow, 0, 99);
-    updateeg2_key_follow();
-    break;
+      eg2_key_follow = (eg2_key_follow + speed);
+      eg2_key_follow = constrain(eg2_key_follow, 0, 99);
+      updateeg2_key_follow();
+      break;
 
     case 23:
-    vca_key_velocity = (vca_key_velocity + speed);
-    vca_key_velocity = constrain(vca_key_velocity, 0, 99);
-    updatevca_key_velocity();
-    break;
+      vca_key_velocity = (vca_key_velocity + speed);
+      vca_key_velocity = constrain(vca_key_velocity, 0, 99);
+      updatevca_key_velocity();
+      break;
 
     case 24:
-    vca_level = (vca_level + speed);
-    vca_level = constrain(vca_level, 0, 99);
-    updatevca_level();
-    break;
+      vca_level = (vca_level + speed);
+      vca_level = constrain(vca_level, 0, 99);
+      updatevca_level();
+      break;
 
     case 25:
-    eg1_sustain = (eg1_sustain + speed);
-    eg1_sustain = constrain(eg1_sustain, 0, 99);
-    updateeg1_sustain();
-    break;
+      eg1_sustain = (eg1_sustain + speed);
+      eg1_sustain = constrain(eg1_sustain, 0, 99);
+      updateeg1_sustain();
+      break;
 
     case 26:
-    eg1_release = (eg1_release + speed);
-    eg1_release = constrain(eg1_release, 0, 99);
-    updateeg1_release();
-    break;
+      eg1_release = (eg1_release + speed);
+      eg1_release = constrain(eg1_release, 0, 99);
+      updateeg1_release();
+      break;
 
     case 27:
-    eg2_sustain = (eg2_sustain + speed);
-    eg2_sustain = constrain(eg2_sustain, 0, 99);
-    updateeg2_sustain();
-    break;
+      eg2_sustain = (eg2_sustain + speed);
+      eg2_sustain = constrain(eg2_sustain, 0, 99);
+      updateeg2_sustain();
+      break;
 
     case 28:
-    eg2_release = (eg2_release + speed);
-    eg2_release = constrain(eg2_release, 0, 99);
-    updateeg2_release();
-    break;
+      eg2_release = (eg2_release + speed);
+      eg2_release = constrain(eg2_release, 0, 99);
+      updateeg2_release();
+      break;
 
     case 29:
-    lfo1_speed = (lfo1_speed + speed);
-    lfo1_speed = constrain(lfo1_speed, 0, 99);
-    updatelfo1_speed();
-    break;
+      lfo1_speed = (lfo1_speed + speed);
+      lfo1_speed = constrain(lfo1_speed, 0, 99);
+      updatelfo1_speed();
+      break;
 
     case 30:
-    lfo2_speed = (lfo2_speed + speed);
-    lfo2_speed = constrain(lfo2_speed, 0, 99);
-    updatelfo2_speed();
-    break;
+      lfo2_speed = (lfo2_speed + speed);
+      lfo2_speed = constrain(lfo2_speed, 0, 99);
+      updatelfo2_speed();
+      break;
 
     case 31:
-    lfo3_speed = (lfo3_speed + speed);
-    lfo3_speed = constrain(lfo3_speed, 0, 99);
-    updatelfo3_speed();
-    break;
+      lfo3_speed = (lfo3_speed + speed);
+      lfo3_speed = constrain(lfo3_speed, 0, 99);
+      updatelfo3_speed();
+      break;
 
     case 32:
-    lfo1_delay = (lfo1_delay + speed);
-    lfo1_delay = constrain(lfo1_delay, 0, 99);
-    updatelfo1_delay();
-    break;
+      lfo1_delay = (lfo1_delay + speed);
+      lfo1_delay = constrain(lfo1_delay, 0, 99);
+      updatelfo1_delay();
+      break;
 
     case 33:
-    lfo2_delay = (lfo2_delay + speed);
-    lfo2_delay = constrain(lfo2_delay, 0, 99);
-    updatelfo2_delay();
-    break;
+      lfo2_delay = (lfo2_delay + speed);
+      lfo2_delay = constrain(lfo2_delay, 0, 99);
+      updatelfo2_delay();
+      break;
 
     case 34:
-    lfo3_delay = (lfo3_delay + speed);
-    lfo3_delay = constrain(lfo3_delay, 0, 99);
-    updatelfo3_delay();
-    break;
+      lfo3_delay = (lfo3_delay + speed);
+      lfo3_delay = constrain(lfo3_delay, 0, 99);
+      updatelfo3_delay();
+      break;
   }
-  
+
 
   //rotaryEncoderChanged(id, clockwise, speed);
 }
@@ -3641,6 +3617,62 @@ void mainButtonChanged(Button *btn, bool released) {
         myControlChange(midiChannel, CClfo_select, lfo_select);
       }
       break;
+
+    case OSC1_LEV_SW:
+      if (!released) {
+        osc1_level = 0;
+        myControlChange(midiChannel, CCosc1_level, osc1_level);
+      }
+      break;
+
+    case OSC2_DET_SW:
+      if (!released) {
+        osc2_detune = 50;
+        myControlChange(midiChannel, CCosc2_detune, osc2_detune);
+      }
+      break;
+
+    case OSC2_LEV_SW:
+      if (!released) {
+        osc2_level = 0;
+        myControlChange(midiChannel, CCosc2_level, osc2_level);
+      }
+      break;
+
+    case OSC2_EG_SW:
+      if (!released) {
+        osc2_eg_depth = 50;
+        myControlChange(midiChannel, CCosc2_eg_depth, osc2_eg_depth);
+      }
+      break;
+
+    case VCF_EG_SW:
+      if (!released) {
+        vcf_eg_depth = 50;
+        myControlChange(midiChannel, CCvcf_eg_depth, vcf_eg_depth);
+      }
+      break;
+
+    case VCF_KEYF_SW:
+      if (!released) {
+        vcf_key_follow = 0;
+        myControlChange(midiChannel, CCvcf_key_follow, vcf_key_follow);
+      }
+      break;
+
+    case VCF_VEL_SW:
+      if (!released) {
+        vcf_key_velocity = 0;
+        myControlChange(midiChannel, CCvcf_key_velocity, vcf_key_velocity);
+      }
+      break;
+
+    case VCA_VEL_SW:
+      if (!released) {
+        vca_key_velocity = 0;
+        myControlChange(midiChannel, CCvca_key_velocity, vca_key_velocity);
+      }
+      break;
   }
 }
 
@@ -3692,7 +3724,7 @@ void loop() {
 
   if (waitingToUpdate && (millis() - lastDisplayTriggerTime >= displayTimeout)) {
     refreshScreen();  // retrigger
-    waitingToUpdate = false; 
+    waitingToUpdate = false;
   }
 
   // Print data if the entire SysEx message is complete
