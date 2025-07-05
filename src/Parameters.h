@@ -105,6 +105,30 @@ int eg_select_temp = -1;
 
 int returnvalue = 0;
 
+static int lastDetuneValue = 50;
+static bool detuneWasToggled = false;
+
+static int lastlevel1Value = 0;
+static bool level1WasToggled = false;
+
+static int lastlevel2Value = 0;
+static bool level2WasToggled = false;
+
+static int lastosc2EGValue = 50;
+static bool osc2EGWasToggled = false;
+
+static int lastvcfEGValue = 50;
+static bool vcfEGWasToggled = false;
+
+static int lastvcfKeyFValue = 50;
+static bool vcfKeyFWasToggled = false;
+
+static int lastvcfVelValue = 50;
+static bool vcfVelWasToggled = false;
+
+static int lastvcaVelValue = 50;
+static bool vcaVelWasToggled = false;
+
 int pre_osc1_octave = -1;
 int pre_osc1_wave = -1;
 int pre_osc1_pw = -1;

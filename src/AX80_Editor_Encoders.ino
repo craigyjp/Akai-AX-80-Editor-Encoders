@@ -3849,56 +3849,160 @@ void mainButtonChanged(Button *btn, bool released) {
 
     case OSC1_LEV_SW:
       if (!released) {
-        osc1_level = 0;
+        if (!level1WasToggled) {
+          // If it's already 0 and wasn't toggled, do nothing
+          if (osc1_level == 0) break;
+
+          // Save the current value and set to default
+          lastlevel1Value = osc1_level;
+          osc1_level = 0;
+          level1WasToggled = true;
+        } else {
+          // Toggle back to previous value
+          osc1_level = lastlevel1Value;
+          level1WasToggled = false;
+        }
+
         myControlChange(midiChannel, CCosc1_level, osc1_level);
       }
       break;
 
     case OSC2_DET_SW:
       if (!released) {
-        osc2_detune = 50;
+        if (!detuneWasToggled) {
+          // If it's already 50 and wasn't toggled, do nothing
+          if (osc2_detune == 50) break;
+
+          // Save the current value and set to default
+          lastDetuneValue = osc2_detune;
+          osc2_detune = 50;
+          detuneWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          osc2_detune = lastDetuneValue;
+          detuneWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCosc2_detune, osc2_detune);
       }
       break;
 
     case OSC2_LEV_SW:
       if (!released) {
-        osc2_level = 0;
+        if (!level2WasToggled) {
+          // If it's already 0 and wasn't toggled, do nothing
+          if (osc2_level == 0) break;
+
+          // Save the current value and set to default
+          lastlevel2Value = osc2_level;
+          osc2_level = 0;
+          level2WasToggled = true;
+        } else {
+          // Toggle back to previous value
+          osc2_level = lastlevel2Value;
+          level2WasToggled = false;
+        }
+
         myControlChange(midiChannel, CCosc2_level, osc2_level);
       }
       break;
 
     case OSC2_EG_SW:
       if (!released) {
-        osc2_eg_depth = 50;
+        if (!osc2EGWasToggled) {
+          // If it's already 50 and wasn't toggled, do nothing
+          if (osc2_eg_depth == 50) break;
+
+          // Save the current value and set to default
+          lastosc2EGValue = osc2_eg_depth;
+          osc2_eg_depth = 50;
+          osc2EGWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          osc2_eg_depth = lastosc2EGValue;
+          osc2EGWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCosc2_eg_depth, osc2_eg_depth);
       }
       break;
 
     case VCF_EG_SW:
       if (!released) {
-        vcf_eg_depth = 50;
+        if (!vcfEGWasToggled) {
+          // If it's already 50 and wasn't toggled, do nothing
+          if (vcf_eg_depth == 50) break;
+
+          // Save the current value and set to default
+          lastvcfEGValue = vcf_eg_depth;
+          vcf_eg_depth = 50;
+          vcfEGWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          vcf_eg_depth = lastvcfEGValue;
+          vcfEGWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCvcf_eg_depth, vcf_eg_depth);
       }
       break;
 
     case VCF_KEYF_SW:
       if (!released) {
-        vcf_key_follow = 0;
+        if (!vcfKeyFWasToggled) {
+          // If it's already 0 and wasn't toggled, do nothing
+          if (vcf_key_follow == 0) break;
+
+          // Save the current value and set to default
+          lastvcfKeyFValue = vcf_key_follow;
+          vcf_key_follow = 0;
+          vcfKeyFWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          vcf_key_follow = lastvcfKeyFValue;
+          vcfKeyFWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCvcf_key_follow, vcf_key_follow);
       }
       break;
 
     case VCF_VEL_SW:
       if (!released) {
-        vcf_key_velocity = 0;
+        if (!vcfVelWasToggled) {
+          // If it's already 0 and wasn't toggled, do nothing
+          if (vcf_key_velocity == 0) break;
+
+          // Save the current value and set to default
+          lastvcfVelValue = vcf_key_velocity;
+          vcf_key_velocity = 0;
+          vcfVelWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          vcf_key_velocity = lastvcfVelValue;
+          vcfVelWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCvcf_key_velocity, vcf_key_velocity);
       }
       break;
 
     case VCA_VEL_SW:
       if (!released) {
-        vca_key_velocity = 0;
+        if (!vcaVelWasToggled) {
+          // If it's already 0 and wasn't toggled, do nothing
+          if (vca_key_velocity == 0) break;
+
+          // Save the current value and set to default
+          lastvcaVelValue = vca_key_velocity;
+          vca_key_velocity = 0;
+          vcaVelWasToggled = true;
+        } else {
+          // Toggle back to previous value
+          vca_key_velocity = lastvcfVelValue;
+          vcaVelWasToggled = false;
+        }
+
         myControlChange(midiChannel, CCvca_key_velocity, vca_key_velocity);
       }
       break;
