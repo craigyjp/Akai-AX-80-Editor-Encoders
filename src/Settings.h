@@ -9,7 +9,7 @@ void settingsROMType();
 void settingsSetBank();
 void settingsLoadFactory();
 void settingsLoadRAM();
-//void settingsSaveCurrent();
+void settingsAfterTouch();
 void settingsSaveAll();
 
 int currentIndexMIDICh();
@@ -21,7 +21,7 @@ int currentIndexROMType();
 int currentIndexSetBank();
 int currentIndexLoadFactory();
 int currentIndexLoadRAM();
-//int currentIndexSaveCurrent();
+int currentIndexAfterTouch();
 int currentIndexSaveAll();
 
 void settingsMIDICh(int index, const char *value) {
@@ -114,6 +114,15 @@ void settingsSaveCurrent(int index, const char *value) {
   storeSaveCurrent(saveCurrent);
 }
 
+void settingsAfterTouch(int index, const char *value) {
+  if (strcmp(value, "Off") == 0) {
+    afterTouch = false;
+  } else {
+    afterTouch =  true;
+  }
+  storeAfterTouch(afterTouch);
+}
+
 void settingsSaveAll(int index, const char *value) {
   if (strcmp(value, "Yes") == 0) {
     saveAll = true;
@@ -167,6 +176,10 @@ int currentIndexSaveAll() {
   return getSaveAll();
 }
 
+int currentIndexAfterTouch() {
+  return getAfterTouch() ? 1 : 0;
+}
+
 // add settings to the circular buffer
 void setUpSettings() {
   settings::append(settings::SettingsOption{"MIDI Ch.", {"All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "\0"}, settingsMIDICh, currentIndexMIDICh});
@@ -177,7 +190,7 @@ void setUpSettings() {
   settings::append(settings::SettingsOption{"Set Bank", {"RAM", "1", "2", "3", "4", "\0"}, settingsSetBank, currentIndexSetBank});
   settings::append(settings::SettingsOption{"Load Factory", {"No", "Yes", "\0"}, settingsLoadFactory, currentIndexLoadFactory});
   settings::append(settings::SettingsOption{"Load RAM", {"No", "Yes", "\0"}, settingsLoadRAM, currentIndexLoadRAM});
-  //settings::append(settings::SettingsOption{"Save Current", {"No", "Yes", "\0"}, settingsSaveCurrent, currentIndexSaveCurrent});
+  settings::append(settings::SettingsOption{"Aftertouch", {"Off", "On", "\0"}, settingsAfterTouch, currentIndexAfterTouch});
   settings::append(settings::SettingsOption{"Send RAM", {"No", "Yes", "\0"}, settingsSaveAll, currentIndexSaveAll});
   settings::append(settings::SettingsOption{"ROM Type", {"ROM I", "ROM K or L", "\0"}, settingsROMType, currentIndexROMType});
 }

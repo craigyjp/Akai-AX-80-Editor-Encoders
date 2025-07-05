@@ -35,6 +35,7 @@ boolean ROMType = false;
 boolean dataInProgress = false;
 int currentSendPatch = 0;
 boolean saveCurrent = false;
+boolean afterTouch = false;
 boolean saveAll = false;
 boolean accelerate = true;
 int speed = 1;

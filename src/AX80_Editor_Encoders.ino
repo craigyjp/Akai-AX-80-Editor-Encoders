@@ -172,6 +172,7 @@ void setup() {
   usbMIDI.setHandleNoteOff(myNoteOff);
   usbMIDI.setHandleNoteOn(myNoteOn);
   usbMIDI.setHandlePitchChange(myPitchBend);
+  usbMIDI.setHandleAfterTouchChannel(myAfterTouch);
   usbMIDI.setHandleSystemExclusive(handleSysexByte);
   Serial.println("USB Client MIDI Listening");
 
@@ -182,6 +183,7 @@ void setup() {
   MIDI.setHandleNoteOn(myNoteOn);
   MIDI.setHandleNoteOff(myNoteOff);
   MIDI.setHandlePitchBend(myPitchBend);
+  MIDI.setHandleAfterTouchChannel(myAfterTouch);
   MIDI.setHandleSystemExclusive(handleSysexByte);
   MIDI.turnThruOn(midi::Thru::Mode::Off);
   Serial.println("MIDI In DIN Listening");
@@ -203,6 +205,9 @@ void setup() {
 
   // Read the encoders accelerate
   accelerate = getEncoderAccelerate();
+
+  // read in aftertouch setting
+  afterTouch = getAfterTouch();
 
   recallPatch(patchNo);  //Load first patch
   refreshScreen();
@@ -768,6 +773,14 @@ void myConvertControlChange(byte channel, byte number, byte value) {
 void myPitchBend(byte channel, int bend) {
   if (!recallPatchFlag) {
     MIDI.sendPitchBend(bend, midiOutCh);
+  }
+}
+
+void myAfterTouch(byte channel, byte value) {
+  if (!recallPatchFlag) {
+    if (afterTouch) {
+      MIDI.sendControlChange(1, value, midiOutCh);
+    }
   }
 }
 
@@ -2299,6 +2312,7 @@ void checkSwitches() {
         state = DELETE;
         break;
     }
+    refreshScreen();
   } else if (saveButton.numClicks() == 1) {
     switch (state) {
       case PARAMETER:
@@ -3196,6 +3210,7 @@ void checkLoadFactory() {
     delay(100);
     state = PARAMETER;
     recallPatch(1);
+    refreshScreen();
     //MIDI.sendProgramChange(0, midiOutCh);
   }
 }
@@ -3473,6 +3488,7 @@ void checkLoadRAM() {
     delay(100);
     state = PARAMETER;
     recallPatch(1);
+    refreshScreen();
   }
 }
 

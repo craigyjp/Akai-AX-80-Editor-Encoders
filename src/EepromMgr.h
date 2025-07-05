@@ -12,6 +12,7 @@
 #define EEPROM_LOAD_RAM 9
 #define EEPROM_BANK_SELECT 10
 #define EEPROM_ENCODER_ACCELERATE 11
+#define EEPROM_AFTERTOUCH 12
 
 int getMIDIChannel() {
   byte midiChannel = EEPROM.read(EEPROM_MIDI_CH);
@@ -130,6 +131,17 @@ boolean getSaveCurrent() {
 void storeSaveCurrent(byte scupdate)
 {
   EEPROM.update(EEPROM_SAVE_CURRENT, scupdate);
+}
+
+boolean getAfterTouch() {
+  byte at = EEPROM.read(EEPROM_AFTERTOUCH); 
+  if (at < 0 || at > 1)return false;
+  return at ? true : false;
+}
+
+void storeAfterTouch(byte atupdate)
+{
+  EEPROM.update(EEPROM_AFTERTOUCH, atupdate);
 }
 
 boolean getSaveAll() {
