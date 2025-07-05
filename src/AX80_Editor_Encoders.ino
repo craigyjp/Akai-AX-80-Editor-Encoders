@@ -221,11 +221,15 @@ void initButtons() {
 }
 
 void myNoteOn(byte channel, byte note, byte velocity) {
-  MIDI.sendNoteOn(note, velocity, channel);
+  if (!recallPatchFlag) {
+    MIDI.sendNoteOn(note, velocity, channel);
+  }
 }
 
 void myNoteOff(byte channel, byte note, byte velocity) {
-  MIDI.sendNoteOff(note, velocity, channel);
+  if (!recallPatchFlag) {
+    MIDI.sendNoteOff(note, velocity, channel);
+  }
 }
 
 void handleSysexByte(byte *data, unsigned length) {
@@ -730,37 +734,41 @@ void mySystemExclusiveChunk(byte *data, unsigned int length) {
 }
 
 void myConvertControlChange(byte channel, byte number, byte value) {
-  switch (number) {
+  if (!recallPatchFlag) {
+    switch (number) {
 
-    case 0:
-      bankselect = value;
-      break;
+      case 0:
+        bankselect = value;
+        break;
 
-    case 1:
-      MIDI.sendControlChange(number, value, midiOutCh);
-      break;
+      case 1:
+        MIDI.sendControlChange(number, value, midiOutCh);
+        break;
 
-    case 2:
-      MIDI.sendControlChange(number, value, midiOutCh);
-      break;
+      case 2:
+        MIDI.sendControlChange(number, value, midiOutCh);
+        break;
 
-    case 7:
-      MIDI.sendControlChange(96, value, midiOutCh);
-      break;
+      case 7:
+        MIDI.sendControlChange(96, value, midiOutCh);
+        break;
 
-    case 64:
-      MIDI.sendControlChange(number, value, midiOutCh);
-      break;
+      case 64:
+        MIDI.sendControlChange(number, value, midiOutCh);
+        break;
 
-    default:
-      int newvalue = value;
-      myControlChange(channel, number, newvalue);
-      break;
+      default:
+        int newvalue = value;
+        myControlChange(channel, number, newvalue);
+        break;
+    }
   }
 }
 
 void myPitchBend(byte channel, int bend) {
-  MIDI.sendPitchBend(bend, midiOutCh);
+  if (!recallPatchFlag) {
+    MIDI.sendPitchBend(bend, midiOutCh);
+  }
 }
 
 void allNotesOff() {
@@ -775,7 +783,10 @@ void updateosc1_level() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc1_level, osc1_level);
+  if (osc1_level != pre_osc1_level) {
+    midiCCOut(CCosc1_level, osc1_level);
+    pre_osc1_level = osc1_level;
+  }
 }
 
 void updateosc1_PW() {
@@ -787,7 +798,10 @@ void updateosc1_PW() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc1_PW, osc1_pw);
+  if (osc1_pw != pre_osc1_pw) {
+    midiCCOut(CCosc1_PW, osc1_pw);
+    pre_osc1_pw = osc1_pw;
+  }
 }
 
 void updateosc1_PWM() {
@@ -799,7 +813,10 @@ void updateosc1_PWM() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc1_PWM, osc1_pwm);
+  if (osc1_pwm != pre_osc1_pwm) {
+    midiCCOut(CCosc1_PWM, osc1_pwm);
+    pre_osc1_pwm = osc1_pwm;
+  }
 }
 
 void updateosc2_freq() {
@@ -919,7 +936,10 @@ void updateosc2_freq() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc2_freq, osc2_freq);
+  if (osc2_freq != pre_osc2_freq) {
+    midiCCOut(CCosc2_freq, osc2_freq);
+    pre_osc2_freq = osc2_freq;
+  }
 }
 
 void updateosc2_eg_depth() {
@@ -931,7 +951,10 @@ void updateosc2_eg_depth() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc2_eg_depth, osc2_eg_depth);
+  if (osc2_eg_depth != pre_osc2_eg_depth) {
+    midiCCOut(CCosc2_eg_depth, osc2_eg_depth);
+    pre_osc2_eg_depth = osc2_eg_depth;
+  }
 }
 
 void updateosc2_level() {
@@ -943,7 +966,10 @@ void updateosc2_level() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc2_level, osc2_level);
+  if (osc2_level != pre_osc2_level) {
+    midiCCOut(CCosc2_level, osc2_level);
+    pre_osc2_level = osc2_level;
+  }
 }
 
 void updateosc2_detune() {
@@ -955,7 +981,10 @@ void updateosc2_detune() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCosc2_detune, osc2_detune);
+  if (osc2_detune != pre_osc2_detune) {
+    midiCCOut(CCosc2_detune, osc2_detune);
+    pre_osc2_detune = osc2_detune;
+  }
 }
 
 void updatevcf_cutoff() {
@@ -963,8 +992,10 @@ void updatevcf_cutoff() {
     showCurrentParameterPage("VCF Cutoff", String(vcf_cutoff));
     startParameterDisplay();
   }
-
-  midiCCOut(CCvcf_cutoff, vcf_cutoff);
+  if (vcf_cutoff != pre_vcf_cutoff) {
+    midiCCOut(CCvcf_cutoff, vcf_cutoff);
+    pre_vcf_cutoff = vcf_cutoff;
+  }
 }
 
 void updatevcf_res() {
@@ -972,7 +1003,10 @@ void updatevcf_res() {
     showCurrentParameterPage("VCF Res", String(vcf_res));
     startParameterDisplay();
   }
-  midiCCOut(CCvcf_res, vcf_res);
+  if (vcf_res != pre_vcf_res) {
+    midiCCOut(CCvcf_res, vcf_res);
+    pre_vcf_res = vcf_res;
+  }
 }
 
 void updatevcf_eg_depth() {
@@ -984,7 +1018,10 @@ void updatevcf_eg_depth() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCvcf_eg_depth, vcf_eg_depth);
+  if (vcf_eg_depth != pre_vcf_eg_depth) {
+    midiCCOut(CCvcf_eg_depth, vcf_eg_depth);
+    pre_vcf_eg_depth = vcf_eg_depth;
+  }
 }
 
 void updatevcf_key_follow() {
@@ -996,7 +1033,10 @@ void updatevcf_key_follow() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCvcf_key_follow, vcf_key_follow);
+  if (vcf_key_follow != pre_vcf_key_follow) {
+    midiCCOut(CCvcf_key_follow, vcf_key_follow);
+    pre_vcf_key_follow = vcf_key_follow;
+  }
 }
 
 void updatevcf_key_velocity() {
@@ -1008,7 +1048,10 @@ void updatevcf_key_velocity() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCvcf_key_velocity, vcf_key_velocity);
+  if (vcf_key_velocity != pre_vcf_key_velocity) {
+    midiCCOut(CCvcf_key_velocity, vcf_key_velocity);
+    pre_vcf_key_velocity = vcf_key_velocity;
+  }
 }
 
 void updatevcf_hpf() {
@@ -1016,7 +1059,10 @@ void updatevcf_hpf() {
     showCurrentParameterPage("VCF High Pass", String(vcf_hpf));
     startParameterDisplay();
   }
-  midiCCOut(CCvcf_hpf, vcf_hpf);
+  if (vcf_hpf != pre_vcf_hpf) {
+    midiCCOut(CCvcf_hpf, vcf_hpf);
+    pre_vcf_hpf = vcf_hpf;
+  }
 }
 
 void updatelfo1_depth() {
@@ -1034,8 +1080,10 @@ void updatelfo1_depth() {
     delay(1);
     lfo_select_temp = 0;
   }
-
-  midiCCOut(CClfo1_depth, lfo1_depth);
+  if (lfo1_depth != pre_lfo1_depth) {
+    midiCCOut(CClfo1_depth, lfo1_depth);
+    pre_lfo1_depth = lfo1_depth;
+  }
 }
 
 void updatelfo1_speed() {
@@ -1049,8 +1097,10 @@ void updatelfo1_speed() {
     delay(1);
     lfo_select_temp = 0;
   }
-
-  midiCCOut(CClfo1_speed, lfo1_speed);
+  if (lfo1_speed != pre_lfo1_speed) {
+    midiCCOut(CClfo1_speed, lfo1_speed);
+    pre_lfo1_speed = lfo1_speed;
+  }
 }
 
 void updatelfo1_delay() {
@@ -1064,8 +1114,10 @@ void updatelfo1_delay() {
     delay(1);
     lfo_select_temp = 0;
   }
-
-  midiCCOut(CClfo1_delay, lfo1_delay);
+  if (lfo1_delay != pre_lfo1_delay) {
+    midiCCOut(CClfo1_delay, lfo1_delay);
+    pre_lfo1_delay = lfo1_delay;
+  }
 }
 
 void updatelfo2_depth() {
@@ -1084,7 +1136,10 @@ void updatelfo2_depth() {
     lfo_select_temp = 1;
   }
 
-  midiCCOut(CClfo2_depth, lfo2_depth);
+  if (lfo2_depth != pre_lfo2_depth) {
+    midiCCOut(CClfo2_depth, lfo2_depth);
+    pre_lfo2_depth = lfo2_depth;
+  }
 }
 
 void updatelfo2_speed() {
@@ -1099,7 +1154,10 @@ void updatelfo2_speed() {
     lfo_select_temp = 1;
   }
 
-  midiCCOut(CClfo2_speed, lfo2_speed);
+  if (lfo2_speed != pre_lfo2_speed) {
+    midiCCOut(CClfo2_speed, lfo2_speed);
+    pre_lfo2_speed = lfo2_speed;
+  }
 }
 
 void updatelfo2_delay() {
@@ -1114,7 +1172,10 @@ void updatelfo2_delay() {
     lfo_select_temp = 1;
   }
 
-  midiCCOut(CClfo2_delay, lfo2_delay);
+  if (lfo2_delay != pre_lfo2_delay) {
+    midiCCOut(CClfo2_delay, lfo2_delay);
+    pre_lfo2_delay = lfo2_delay;
+  }
 }
 
 void updatelfo3_depth() {
@@ -1133,7 +1194,10 @@ void updatelfo3_depth() {
     lfo_select_temp = 2;
   }
 
-  midiCCOut(CClfo3_depth, lfo3_depth);
+  if (lfo3_depth != pre_lfo3_depth) {
+    midiCCOut(CClfo3_depth, lfo3_depth);
+    pre_lfo3_depth = lfo3_depth;
+  }
 }
 
 void updatelfo3_speed() {
@@ -1148,7 +1212,10 @@ void updatelfo3_speed() {
     lfo_select_temp = 2;
   }
 
-  midiCCOut(CClfo3_speed, lfo3_speed);
+  if (lfo3_speed != pre_lfo3_speed) {
+    midiCCOut(CClfo3_speed, lfo3_speed);
+    pre_lfo3_speed = lfo3_speed;
+  }
 }
 
 void updatelfo3_delay() {
@@ -1163,7 +1230,10 @@ void updatelfo3_delay() {
     lfo_select_temp = 2;
   }
 
-  midiCCOut(CClfo3_delay, lfo3_delay);
+  if (lfo3_delay != pre_lfo3_delay) {
+    midiCCOut(CClfo3_delay, lfo3_delay);
+    pre_lfo3_delay = lfo3_delay;
+  }
 }
 
 void updateeg1_attack() {
@@ -1177,8 +1247,10 @@ void updateeg1_attack() {
     delay(1);
     eg_select_temp = 0;
   }
-
-  midiCCOut(CCeg1_attack, eg1_attack);
+  if (eg1_attack != pre_eg1_attack) {
+    midiCCOut(CCeg1_attack, eg1_attack);
+    pre_eg1_attack = eg1_attack;
+  }
 }
 
 void updateeg1_decay() {
@@ -1192,8 +1264,10 @@ void updateeg1_decay() {
     delay(1);
     eg_select_temp = 0;
   }
-
-  midiCCOut(CCeg1_decay, eg1_decay);
+  if (eg1_decay != pre_eg1_decay) {
+    midiCCOut(CCeg1_decay, eg1_decay);
+    pre_eg1_decay = eg1_decay;
+  }
 }
 
 void updateeg1_release() {
@@ -1207,8 +1281,10 @@ void updateeg1_release() {
     delay(1);
     eg_select_temp = 0;
   }
-
-  midiCCOut(CCeg1_release, eg1_release);
+  if (eg1_release != pre_eg1_release) {
+    midiCCOut(CCeg1_release, eg1_release);
+    pre_eg1_release = eg1_release;
+  }
 }
 
 void updateeg1_sustain() {
@@ -1222,8 +1298,10 @@ void updateeg1_sustain() {
     delay(1);
     eg_select_temp = 0;
   }
-
-  midiCCOut(CCeg1_sustain, eg1_sustain);
+  if (eg1_sustain != pre_eg1_sustain) {
+    midiCCOut(CCeg1_sustain, eg1_sustain);
+    pre_eg1_sustain = eg1_sustain;
+  }
 }
 
 void updateeg1_key_follow() {
@@ -1241,8 +1319,10 @@ void updateeg1_key_follow() {
     delay(1);
     eg_select_temp = 0;
   }
-
-  midiCCOut(CCeg1_key_follow, eg1_key_follow);
+  if (eg1_key_follow != pre_eg1_key_follow) {
+    midiCCOut(CCeg1_key_follow, eg1_key_follow);
+    pre_eg1_key_follow = eg1_key_follow;
+  }
 }
 
 void updateeg2_attack() {
@@ -1257,7 +1337,10 @@ void updateeg2_attack() {
     eg_select_temp = 2;
   }
 
-  midiCCOut(CCeg2_attack, eg2_attack);
+  if (eg2_attack != pre_eg2_attack) {
+    midiCCOut(CCeg2_attack, eg2_attack);
+    pre_eg2_attack = eg2_attack;
+  }
 }
 
 void updateeg2_decay() {
@@ -1272,7 +1355,10 @@ void updateeg2_decay() {
     eg_select_temp = 2;
   }
 
-  midiCCOut(CCeg2_decay, eg2_decay);
+  if (eg2_decay != pre_eg2_decay) {
+    midiCCOut(CCeg2_decay, eg2_decay);
+    pre_eg2_decay = eg2_decay;
+  }
 }
 
 void updateeg2_release() {
@@ -1287,7 +1373,10 @@ void updateeg2_release() {
     eg_select_temp = 2;
   }
 
-  midiCCOut(CCeg2_release, eg2_release);
+  if (eg2_release != pre_eg2_release) {
+    midiCCOut(CCeg2_release, eg2_release);
+    pre_eg2_release = eg2_release;
+  }
 }
 
 void updateeg2_sustain() {
@@ -1301,8 +1390,10 @@ void updateeg2_sustain() {
     delay(1);
     eg_select_temp = 2;
   }
-
-  midiCCOut(CCeg2_sustain, eg2_sustain);
+  if (eg2_sustain != pre_eg2_sustain) {
+    midiCCOut(CCeg2_sustain, eg2_sustain);
+    pre_eg2_sustain = eg2_sustain;
+  }
 }
 
 void updateeg2_key_follow() {
@@ -1320,8 +1411,10 @@ void updateeg2_key_follow() {
     delay(1);
     eg_select_temp = 2;
   }
-
-  midiCCOut(CCeg2_key_follow, eg2_key_follow);
+  if (eg2_key_follow != pre_eg2_key_follow) {
+    midiCCOut(CCeg2_key_follow, eg2_key_follow);
+    pre_eg2_key_follow = eg2_key_follow;
+  }
 }
 
 void updatevca_key_velocity() {
@@ -1333,7 +1426,10 @@ void updatevca_key_velocity() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCvca_key_velocity, vca_key_velocity);
+  if (vca_key_velocity != pre_vca_key_velocity) {
+    midiCCOut(CCvca_key_velocity, vca_key_velocity);
+    pre_vca_key_velocity = vca_key_velocity;
+  }
 }
 
 void updatevca_level() {
@@ -1345,7 +1441,10 @@ void updatevca_level() {
     }
     startParameterDisplay();
   }
-  midiCCOut(CCvca_level, vca_level);
+  if (vca_level != pre_vca_level) {
+    midiCCOut(CCvca_level, vca_level);
+    pre_vca_level = vca_level;
+  }
 }
 
 // Buttons
@@ -1365,21 +1464,24 @@ void updateosc1_octave() {
     }
     startParameterDisplay();
   }
-  switch (osc1_octave) {
-    case 2:
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, HIGH);
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, HIGH);
-      break;
-    case 1:
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, LOW);
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, HIGH);
-      break;
-    case 0:
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, HIGH);
-      mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, LOW);
-      break;
+  if (osc1_octave != pre_osc1_octave) {
+    switch (osc1_octave) {
+      case 2:
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, HIGH);
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, HIGH);
+        break;
+      case 1:
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, LOW);
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, HIGH);
+        break;
+      case 0:
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_RED, HIGH);
+        mcp1.digitalWrite(OSC1_OCTAVE_LED_GREEN, LOW);
+        break;
+    }
+    midiCCOut(CCosc1_octave, osc1_octave);
+    pre_osc1_octave = osc1_octave;
   }
-  midiCCOut(CCosc1_octave, osc1_octave);
 }
 
 void updateosc1_wave() {
@@ -1400,25 +1502,28 @@ void updateosc1_wave() {
     }
     startParameterDisplay();
   }
-  switch (osc1_wave) {
-    case 0:
-      mcp1.digitalWrite(OSC1_WAVE_LED_RED, LOW);
-      mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp1.digitalWrite(OSC1_WAVE_LED_RED, HIGH);
-      mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, LOW);
-      break;
-    case 2:
-      mcp1.digitalWrite(OSC1_WAVE_LED_RED, LOW);
-      mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, HIGH);
-      break;
-    case 3:
-      mcp1.digitalWrite(OSC1_WAVE_LED_RED, HIGH);
-      mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, HIGH);
-      break;
+  if (osc1_wave != pre_osc1_wave) {
+    switch (osc1_wave) {
+      case 0:
+        mcp1.digitalWrite(OSC1_WAVE_LED_RED, LOW);
+        mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp1.digitalWrite(OSC1_WAVE_LED_RED, HIGH);
+        mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, LOW);
+        break;
+      case 2:
+        mcp1.digitalWrite(OSC1_WAVE_LED_RED, LOW);
+        mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, HIGH);
+        break;
+      case 3:
+        mcp1.digitalWrite(OSC1_WAVE_LED_RED, HIGH);
+        mcp1.digitalWrite(OSC1_WAVE_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CCosc1_wave, osc1_wave);
+    pre_osc1_wave = osc1_wave;
   }
-  midiCCOut(CCosc1_wave, osc1_wave);
 }
 
 void updateosc1_sub() {
@@ -1433,15 +1538,18 @@ void updateosc1_sub() {
     }
     startParameterDisplay();
   }
-  switch (osc1_sub) {
-    case 0:
-      mcp1.digitalWrite(OSC1_SUB_LED, LOW);
-      break;
-    case 1:
-      mcp1.digitalWrite(OSC1_SUB_LED, HIGH);
-      break;
+  if (osc1_sub != pre_osc1_sub) {
+    switch (osc1_sub) {
+      case 0:
+        mcp1.digitalWrite(OSC1_SUB_LED, LOW);
+        break;
+      case 1:
+        mcp1.digitalWrite(OSC1_SUB_LED, HIGH);
+        break;
+    }
+    midiCCOut(CCosc1_sub, osc1_sub);
+    pre_osc1_sub = osc1_sub;
   }
-  midiCCOut(CCosc1_sub, osc1_sub);
 }
 
 void updateosc2_wave() {
@@ -1462,25 +1570,28 @@ void updateosc2_wave() {
     }
     startParameterDisplay();
   }
-  switch (osc2_wave) {
-    case 0:
-      mcp2.digitalWrite(OSC2_WAVE_LED_RED, LOW);
-      mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp2.digitalWrite(OSC2_WAVE_LED_RED, HIGH);
-      mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, LOW);
-      break;
-    case 2:
-      mcp2.digitalWrite(OSC2_WAVE_LED_RED, LOW);
-      mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, HIGH);
-      break;
-    case 3:
-      mcp2.digitalWrite(OSC2_WAVE_LED_RED, HIGH);
-      mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, HIGH);
-      break;
+  if (osc2_wave != pre_osc2_wave) {
+    switch (osc2_wave) {
+      case 0:
+        mcp2.digitalWrite(OSC2_WAVE_LED_RED, LOW);
+        mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp2.digitalWrite(OSC2_WAVE_LED_RED, HIGH);
+        mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, LOW);
+        break;
+      case 2:
+        mcp2.digitalWrite(OSC2_WAVE_LED_RED, LOW);
+        mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, HIGH);
+        break;
+      case 3:
+        mcp2.digitalWrite(OSC2_WAVE_LED_RED, HIGH);
+        mcp2.digitalWrite(OSC2_WAVE_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CCosc2_wave, osc2_wave);
+    pre_osc2_wave = osc2_wave;
   }
-  midiCCOut(CCosc2_wave, osc2_wave);
 }
 
 void updateosc2_xmod() {
@@ -1498,21 +1609,24 @@ void updateosc2_xmod() {
     }
     startParameterDisplay();
   }
-  switch (osc2_xmod) {
-    case 0:
-      mcp2.digitalWrite(OSC2_XMOD_LED_RED, LOW);
-      mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp2.digitalWrite(OSC2_XMOD_LED_RED, HIGH);
-      mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, LOW);
-      break;
-    case 2:
-      mcp2.digitalWrite(OSC2_XMOD_LED_RED, LOW);
-      mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, HIGH);
-      break;
+  if (osc2_xmod != pre_osc2_xmod) {
+    switch (osc2_xmod) {
+      case 0:
+        mcp2.digitalWrite(OSC2_XMOD_LED_RED, LOW);
+        mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp2.digitalWrite(OSC2_XMOD_LED_RED, HIGH);
+        mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, LOW);
+        break;
+      case 2:
+        mcp2.digitalWrite(OSC2_XMOD_LED_RED, LOW);
+        mcp2.digitalWrite(OSC2_XMOD_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CCosc2_xmod, osc2_xmod);
+    pre_osc2_xmod = osc2_xmod;
   }
-  midiCCOut(CCosc2_xmod, osc2_xmod);
 }
 
 void updateosc2_eg_select() {
@@ -1527,17 +1641,20 @@ void updateosc2_eg_select() {
     }
     startParameterDisplay();
   }
-  switch (osc2_eg_select) {
-    case 0:
-      mcp2.digitalWrite(OSC2_EG_SELECT_LED_RED, HIGH);
-      mcp3.digitalWrite(OSC2_EG_SELECT_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp2.digitalWrite(OSC2_EG_SELECT_LED_RED, LOW);
-      mcp3.digitalWrite(OSC2_EG_SELECT_LED_GREEN, HIGH);
-      break;
+  if (osc2_eg_select != pre_osc2_eg_select) {
+    switch (osc2_eg_select) {
+      case 0:
+        mcp2.digitalWrite(OSC2_EG_SELECT_LED_RED, HIGH);
+        mcp3.digitalWrite(OSC2_EG_SELECT_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp2.digitalWrite(OSC2_EG_SELECT_LED_RED, LOW);
+        mcp3.digitalWrite(OSC2_EG_SELECT_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CCosc2_eg_select, osc2_eg_select);
+    pre_osc2_eg_select = osc2_eg_select;
   }
-  midiCCOut(CCosc2_eg_select, osc2_eg_select);
 }
 
 void updatelfo1_wave() {
@@ -1558,6 +1675,7 @@ void updatelfo1_wave() {
     }
     startParameterDisplay();
   }
+
   switch (lfo1_wave) {
     case 0:
       mcp7.digitalWrite(LFO1_WAVE_LED_RED, LOW);
@@ -1582,8 +1700,10 @@ void updatelfo1_wave() {
     delay(1);
     lfo_select_temp = 0;
   }
-
-  midiCCOut(CClfo1_wave, lfo1_wave);
+  if (lfo1_wave != pre_lfo1_wave) {
+    midiCCOut(CClfo1_wave, lfo1_wave);
+    pre_lfo1_wave = lfo1_wave;
+  }
 }
 
 void updatelfo2_wave() {
@@ -1629,7 +1749,10 @@ void updatelfo2_wave() {
     lfo_select_temp = 1;
   }
 
-  midiCCOut(CClfo2_wave, lfo2_wave);
+  if (lfo2_wave != pre_lfo2_wave) {
+    midiCCOut(CClfo2_wave, lfo2_wave);
+    pre_lfo2_wave = lfo2_wave;
+  }
 }
 
 void updatelfo3_wave() {
@@ -1675,7 +1798,10 @@ void updatelfo3_wave() {
     lfo_select_temp = 2;
   }
 
-  midiCCOut(CClfo3_wave, lfo3_wave);
+  if (lfo3_wave != pre_lfo3_wave) {
+    midiCCOut(CClfo3_wave, lfo3_wave);
+    pre_lfo3_wave = lfo3_wave;
+  }
 }
 
 void updatelfo_select() {
@@ -1694,21 +1820,23 @@ void updatelfo_select() {
     startParameterDisplay();
     lfo_select_temp = lfo_select;
   }
-  switch (lfo_select) {
-    case 0:
-      mcp4.digitalWrite(LFO_SELECT_LED_RED, HIGH);
-      mcp4.digitalWrite(LFO_SELECT_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp4.digitalWrite(LFO_SELECT_LED_RED, LOW);
-      mcp4.digitalWrite(LFO_SELECT_LED_GREEN, HIGH);
-      break;
-    case 2:
-      mcp4.digitalWrite(LFO_SELECT_LED_RED, HIGH);
-      mcp4.digitalWrite(LFO_SELECT_LED_GREEN, HIGH);
-      break;
+  if (!recallPatchFlag) {
+    switch (lfo_select) {
+      case 0:
+        mcp4.digitalWrite(LFO_SELECT_LED_RED, HIGH);
+        mcp4.digitalWrite(LFO_SELECT_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp4.digitalWrite(LFO_SELECT_LED_RED, LOW);
+        mcp4.digitalWrite(LFO_SELECT_LED_GREEN, HIGH);
+        break;
+      case 2:
+        mcp4.digitalWrite(LFO_SELECT_LED_RED, HIGH);
+        mcp4.digitalWrite(LFO_SELECT_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CClfo_select, lfo_select);
   }
-  midiCCOut(CClfo_select, lfo_select);
 }
 
 void updateeg_select() {
@@ -1727,21 +1855,23 @@ void updateeg_select() {
     startParameterDisplay();
     eg_select_temp = eg_select;
   }
-  switch (eg_select) {
-    case 0:
-      mcp5.digitalWrite(EG_DEST_LED_RED, HIGH);
-      mcp5.digitalWrite(EG_DEST_LED_GREEN, LOW);
-      break;
-    case 1:
-      mcp5.digitalWrite(EG_DEST_LED_RED, HIGH);
-      mcp5.digitalWrite(EG_DEST_LED_GREEN, HIGH);
-      break;
-    case 2:
-      mcp5.digitalWrite(EG_DEST_LED_RED, LOW);
-      mcp5.digitalWrite(EG_DEST_LED_GREEN, HIGH);
-      break;
+  if (!recallPatchFlag) {
+    switch (eg_select) {
+      case 0:
+        mcp5.digitalWrite(EG_DEST_LED_RED, HIGH);
+        mcp5.digitalWrite(EG_DEST_LED_GREEN, LOW);
+        break;
+      case 1:
+        mcp5.digitalWrite(EG_DEST_LED_RED, HIGH);
+        mcp5.digitalWrite(EG_DEST_LED_GREEN, HIGH);
+        break;
+      case 2:
+        mcp5.digitalWrite(EG_DEST_LED_RED, LOW);
+        mcp5.digitalWrite(EG_DEST_LED_GREEN, HIGH);
+        break;
+    }
+    midiCCOut(CCeg_select, eg_select);
   }
-  midiCCOut(CCeg_select, eg_select);
 }
 
 void startParameterDisplay() {
@@ -2155,7 +2285,7 @@ void showSettingsPage() {
 void midiCCOut(byte cc, byte value) {
   MIDI.sendControlChange(cc, value, midiOutCh);  //MIDI DIN is set to Out
   if (updateParams) {
-    delay(1);
+    delay(2);
   }
 }
 
@@ -2346,6 +2476,64 @@ void checkSwitches() {
 }
 
 void reinitialiseToPanel() {
+
+  osc1_octave = 0;
+  osc1_wave = 1;
+  osc1_pw = 50;
+  osc1_pwm = 0;
+  osc1_sub = 0;
+  osc1_level = 99;
+
+  osc2_freq = 0;
+  osc2_detune = 50;
+  osc2_wave = 1;
+  osc2_xmod = 0;
+  osc2_eg_depth = 50;
+  osc2_eg_select = 0;
+  osc2_level = 99;
+
+  vcf_cutoff = 99;
+  vcf_res = 0;
+  vcf_eg_depth = 50;
+  vcf_key_follow = 0;
+  vcf_key_velocity = 0;
+  vcf_hpf = 0;
+
+  lfo1_depth = 0;
+  lfo1_speed = 50;
+  lfo1_delay = 0;
+  lfo1_wave = 0;
+  lfo_select = 0;
+
+  eg1_attack = 0;
+  eg1_decay = 0;
+  eg1_sustain = 99;
+  eg1_release = 0;
+  eg1_key_follow = 0;
+  eg_select = 0;
+
+  vca_key_velocity = 0;
+  vca_level = 99;
+
+  lfo2_depth = 0;
+  lfo2_speed = 50;
+  lfo2_delay = 0;
+  lfo2_wave = 0;
+
+  lfo3_depth = 0;
+  lfo3_speed = 50;
+  lfo3_delay = 0;
+  lfo3_wave = 0;
+
+  eg2_attack = 0;
+  eg2_decay = 0;
+  eg2_sustain = 99;
+  eg2_release = 0;
+  eg2_key_follow = 0;
+
+  recallPatchFlag = true;
+  sendToSynthData();
+  recallPatchFlag = false;
 }
 
 void checkEncoder() {
@@ -3289,7 +3477,7 @@ void checkLoadRAM() {
 }
 
 void RotaryEncoderChanged(bool clockwise, int id) {
-  
+
   if (!accelerate) {
     speed = 1;
   } else {
@@ -3732,9 +3920,11 @@ void pollAllMCPs() {
 
 void loop() {
 
-  MIDI.read(midiChannel);
-  usbMIDI.read(midiChannel);
-  MIDI5.read(midiChannel);
+  if (!recallPatchFlag) {
+    MIDI.read(midiChannel);
+    usbMIDI.read(midiChannel);
+    MIDI5.read(midiChannel);
+  }
 
   if (!receivingSysEx) {
 

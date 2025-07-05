@@ -64,6 +64,46 @@ Adafruit_MCP23017 mcp7;
 //Array of pointers of all MCPs
 Adafruit_MCP23017 *allMCPs[] = {&mcp1, &mcp2, &mcp3, &mcp4, &mcp5, &mcp6, &mcp7};
 
+// Eduardos Encoders
+/* Array of all rotary encoders and their pins */
+// RotaryEncOverMCP rotaryEncoders[] = {
+//         RotaryEncOverMCP(&mcp1, 0, 1, &RotaryEncoderChanged, 1),
+//         RotaryEncOverMCP(&mcp1, 2, 3, &RotaryEncoderChanged, 2),
+//         RotaryEncOverMCP(&mcp1, 4, 5, &RotaryEncoderChanged, 3),
+//         RotaryEncOverMCP(&mcp1, 11, 12, &RotaryEncoderChanged, 4),
+//         RotaryEncOverMCP(&mcp2, 0, 1, &RotaryEncoderChanged, 5),
+//         RotaryEncOverMCP(&mcp2, 2, 3, &RotaryEncoderChanged, 6),
+//         RotaryEncOverMCP(&mcp2, 4, 5, &RotaryEncoderChanged, 7),
+//         RotaryEncOverMCP(&mcp2, 11, 12, &RotaryEncoderChanged, 8),
+//         RotaryEncOverMCP(&mcp3, 0, 1, &RotaryEncoderChanged, 9),
+//         RotaryEncOverMCP(&mcp3, 2, 3, &RotaryEncoderChanged, 10),
+//         RotaryEncOverMCP(&mcp3, 4, 5, &RotaryEncoderChanged, 11),
+//         RotaryEncOverMCP(&mcp3, 8, 9, &RotaryEncoderChanged, 12),
+//         RotaryEncOverMCP(&mcp3, 10, 11, &RotaryEncoderChanged, 13),
+//         RotaryEncOverMCP(&mcp3, 12, 13, &RotaryEncoderChanged, 14),
+//         RotaryEncOverMCP(&mcp4, 0, 1, &RotaryEncoderChanged, 15),
+//         RotaryEncOverMCP(&mcp4, 2, 3, &RotaryEncoderChanged, 16),
+//         RotaryEncOverMCP(&mcp4, 8, 9, &RotaryEncoderChanged, 17),
+//         RotaryEncOverMCP(&mcp4, 10, 11, &RotaryEncoderChanged, 18),
+//         RotaryEncOverMCP(&mcp5, 0, 1, &RotaryEncoderChanged, 19),
+//         RotaryEncOverMCP(&mcp5, 2, 3, &RotaryEncoderChanged, 20),
+//         RotaryEncOverMCP(&mcp5, 8, 9, &RotaryEncoderChanged, 21),
+//         RotaryEncOverMCP(&mcp5, 10, 11, &RotaryEncoderChanged, 22),
+//         RotaryEncOverMCP(&mcp6, 0, 1, &RotaryEncoderChanged, 23),
+//         RotaryEncOverMCP(&mcp6, 2, 3, &RotaryEncoderChanged, 24),
+//         RotaryEncOverMCP(&mcp6, 4, 5, &RotaryEncoderChanged, 25),
+//         RotaryEncOverMCP(&mcp6, 8, 9, &RotaryEncoderChanged, 26),
+//         RotaryEncOverMCP(&mcp6, 10, 11, &RotaryEncoderChanged, 27),
+//         RotaryEncOverMCP(&mcp6, 12, 13, &RotaryEncoderChanged, 28),
+//         RotaryEncOverMCP(&mcp7, 0, 1, &RotaryEncoderChanged, 29),
+//         RotaryEncOverMCP(&mcp7, 2, 3, &RotaryEncoderChanged, 30),
+//         RotaryEncOverMCP(&mcp7, 4, 5, &RotaryEncoderChanged, 31),
+//         RotaryEncOverMCP(&mcp7, 8, 9, &RotaryEncoderChanged, 32),
+//         RotaryEncOverMCP(&mcp7, 10, 11, &RotaryEncoderChanged, 33),
+//         RotaryEncOverMCP(&mcp7, 12, 13, &RotaryEncoderChanged, 34),
+// };
+
+// My encoders
 /* Array of all rotary encoders and their pins */
 RotaryEncOverMCP rotaryEncoders[] = {
         RotaryEncOverMCP(&mcp1, 1, 0, &RotaryEncoderChanged, 1),
@@ -101,6 +141,7 @@ RotaryEncOverMCP rotaryEncoders[] = {
         RotaryEncOverMCP(&mcp7, 11, 10, &RotaryEncoderChanged, 33),
         RotaryEncOverMCP(&mcp7, 13, 12, &RotaryEncoderChanged, 34),
 };
+
 
 // after your rotaryEncoders[] definition
 constexpr size_t NUM_MCP = sizeof(allMCPs) / sizeof(allMCPs[0]);

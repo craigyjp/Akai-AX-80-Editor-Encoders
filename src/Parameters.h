@@ -103,3 +103,57 @@ int lfo_select_temp = -1;
 int eg_select_temp = -1;
 
 int returnvalue = 0;
+
+int pre_osc1_octave = -1;
+int pre_osc1_wave = -1;
+int pre_osc1_pw = -1;
+int pre_osc1_pwm = -1;
+int pre_osc1_sub = -1;
+int pre_osc1_level = -1;
+
+int pre_osc2_freq = -1;
+int pre_osc2_detune = -1;
+int pre_osc2_wave = -1;
+int pre_osc2_xmod = -1;
+int pre_osc2_eg_depth = -1;
+int pre_osc2_eg_select = -1;
+int pre_osc2_level = -1;
+
+int pre_vcf_cutoff = -1;
+int pre_vcf_res = -1;
+int pre_vcf_eg_depth = -1;
+int pre_vcf_key_follow = -1;
+int pre_vcf_key_velocity = -1;
+int pre_vcf_hpf = -1;
+
+int pre_lfo1_depth = -1;
+int pre_lfo1_speed = -1;
+int pre_lfo1_delay = -1;
+int pre_lfo1_wave = -1;
+int pre_lfo_select = -1;
+
+int pre_eg1_attack = -1;
+int pre_eg1_decay = -1;
+int pre_eg1_sustain = -1;
+int pre_eg1_release = -1;
+int pre_eg1_key_follow = -1;
+int pre_eg_select = -1;
+
+int pre_vca_key_velocity = -1;
+int pre_vca_level = -1;
+
+int pre_lfo2_depth = -1;
+int pre_lfo2_speed = -1;
+int pre_lfo2_delay = -1;
+int pre_lfo2_wave = -1;
+
+int pre_lfo3_depth = -1;
+int pre_lfo3_speed = -1;
+int pre_lfo3_delay = -1;
+int pre_lfo3_wave = -1;
+
+int pre_eg2_attack = -1;
+int pre_eg2_decay = -1;
+int pre_eg2_sustain = -1;
+int pre_eg2_release = -1;
+int pre_eg2_key_follow = -1;
