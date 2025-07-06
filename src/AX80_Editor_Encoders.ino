@@ -1,5 +1,5 @@
 /*
-  AX80 Editor Encoders - Firmware Rev 1.1
+  AX80 Editor Encoders - Firmware Rev 1.2
 
   Includes code by:
     ElectroTechnique for general method of menus and updates.
@@ -502,6 +502,7 @@ void printSysexData() {
       recallPatch(289);
       break;
   }
+  refreshScreen();
 }
 
 void mySystemExclusiveChunk(byte *data, unsigned int length) {
@@ -710,32 +711,8 @@ void mySystemExclusiveChunk(byte *data, unsigned int length) {
     }
   }
 
-  // recallPatchFlag = false;
+  recallPatchFlag = false;
 
-  // patchName = "Patch ";
-  // patchName += String(currentSendPatch + 1);
-
-  // updatePatchname();
-  // sprintf(buffer, "%d", currentSendPatch + 1);
-  // savePatch(buffer, getCurrentPatchData());
-  // currentSendPatch++;
-  // delay(100);
-
-  // if (currentSendPatch == 64) {
-  //   loadPatches();
-  //   loadFromDW = false;
-  //   storeLoadFromDW(loadFromDW);
-  //   settings::decrement_setting_value();
-  //   settings::save_current_value();
-  //   showSettingsPage();
-  //   delay(100);
-  //   state = PARAMETER;
-  //   recallPatch(1);
-  //   MIDI.sendProgramChange(0, midiOutCh);
-  // }
-  // dataInProgress = false;
-
-  // }
 }
 
 void myConvertControlChange(byte channel, byte number, byte value) {
@@ -3729,10 +3706,6 @@ int getEncoderSpeed(int id) {
     speed = 2;
   }
 
-  // if (!accelerate) {
-  //   speed = 1;
-  // }
-
   lastTransition[id] = now;
   return speed;
 }
@@ -3999,7 +3972,7 @@ void mainButtonChanged(Button *btn, bool released) {
           vcaVelWasToggled = true;
         } else {
           // Toggle back to previous value
-          vca_key_velocity = lastvcfVelValue;
+          vca_key_velocity = lastvcaVelValue;
           vcaVelWasToggled = false;
         }
 
